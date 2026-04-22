@@ -95,8 +95,6 @@
             filter: drop-shadow(0 0 10px rgba(255, 102, 0, 0.5));
         }
 
-
-
         .question-box {
             min-height: 140px;
             display: flex;
@@ -117,14 +115,15 @@
         }
 
         #condition-text {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 400;
             line-height: 1.4;
-            opacity: 0.85;
-            color: #e0e0e0;
+            opacity: 0.6;
+            color: #cccccc;
             transition: all 0.5s ease;
             max-width: 85%;
             margin-top: 0.5rem;
+            font-style: italic;
         }
 
         .button-group {
@@ -180,9 +179,10 @@
         }
 
         #skip-hint {
-            font-size: 0.7rem;
-            opacity: 0.5;
+            font-size: 0.65rem;
+            opacity: 0.3;
             margin-top: 0.3rem;
+            font-weight: 400;
         }
 
         /* SmartTap Branding */
@@ -249,15 +249,13 @@
     <div class="container">
         <img src="logo.png" alt="Open Studio Day Logo" class="logo">
         
-
-
         <div class="question-box">
-            <p id="question-text">Bereit für den Open Studio Day?</p>
+            <p id="question-text">Lade Fragen...</p>
             <p id="condition-text"></p>
         </div>
 
         <div class="button-group">
-            <button id="next-btn" class="btn">Geschafft!</button>
+            <button id="next-btn" class="btn">Nächste Frage</button>
             <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                 <button id="skip-btn" class="btn btn-skip">Aufgabe überspringen</button>
                 <p id="skip-hint">Nur 1x hintereinander möglich</p>
@@ -287,6 +285,8 @@
                 const response = await fetch('questions.json');
                 questions = await response.json();
                 questions.sort(() => Math.random() - 0.5);
+                // Start directly with the first question
+                updateDisplay(false);
             } catch (error) {
                 questionText.innerText = "Fehler beim Laden der Fragen.";
             }
@@ -325,7 +325,7 @@
                 questionText.style.color = currentColor;
                 questionText.style.textShadow = `0 0 15px ${currentColor}4d`;
                 
-                // Logik für Skip-Button
+                // Logic for Skip-Button
                 lastActionWasSkip = isSkip;
                 skipBtn.disabled = lastActionWasSkip;
                 
